@@ -8,11 +8,16 @@ import androidx.compose.material.Text
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by theapache64 : Jan 03 Sun,2021 @ 22:47
  */
+@AndroidEntryPoint
 class MoviesFragment : Fragment() {
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

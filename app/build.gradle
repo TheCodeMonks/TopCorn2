@@ -6,6 +6,7 @@ plugins {
 }
 apply plugin: "androidx.navigation.safeargs"
 
+def compose_version = '1.0.0-alpha09'
 android {
     compileSdkVersion 30
 
@@ -70,6 +71,23 @@ dependencies {
     kapt "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt_version"
     kapt "androidx.hilt:hilt-compiler:$androidx_hilt_version"
 
+    // Room
+    def room_version = "2.2.6"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // Retrofit
+    def retrofit_version = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    // Moshi : Moshi
+    implementation 'com.squareup.moshi:moshi:1.11.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.11.0'
+
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -78,4 +96,7 @@ dependencies {
 
     // Timber : No-nonsense injectable logging.
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Kotlinx Coroutines Core : Coroutines support libraries for Kotlin
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
 }
