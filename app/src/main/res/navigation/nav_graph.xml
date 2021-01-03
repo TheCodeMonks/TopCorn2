@@ -2,9 +2,20 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_splash">
+    app:startDestination="@id/splash_fragment">
 
     <fragment
-        android:id="@+id/fragment_splash"
-        android:name="com.theapache64.topcorn2.ui.screen.splash.SplashFragment" />
+        android:id="@+id/splash_fragment"
+        android:name="com.theapache64.topcorn2.ui.screen.splash.SplashFragment">
+        <action
+            android:id="@+id/action_splash_fragment_to_movies_fragment"
+            app:destination="@id/movies_fragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/movies_fragment"
+        android:name="com.theapache64.topcorn2.ui.screen.movies.MoviesFragment" />
 </navigation>
