@@ -48,43 +48,20 @@ fun MoviesScreen(
                     )
                 },
                 actions = {
-
-                    if (sortOrder == MoviesViewModel.SORT_ORDER_YEAR) {
-                        // Sort By Star
-                        IconButton(onClick = { moviesViewModel.onSortByRatingClicked() }) {
-                            Icon(
-                                imageVector = vectorResource(id = R.drawable.ic_star)
-                            )
-                        }
-                    } else {
-                        // Sort By Year
-                        IconButton(onClick = { moviesViewModel.onSortByYearClicked() }) {
-                            Icon(
-                                imageVector = vectorResource(id = R.drawable.ic_calendar)
-                            )
-                        }
-                    }
-
-                    // Dark Mode
-                    IconButton(
-                        onClick = {
-                            val isDark =
-                                currentUiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+                    AppBarMenu(
+                        sortOrder = sortOrder,
+                        onSortByStarClicked = {
+                            moviesViewModel.onSortByRatingClicked()
+                        },
+                        onSortByYearClicked = {
+                            moviesViewModel.onSortByYearClicked()
+                        },
+                        onToggleDarkModelClicked = {
+                            val isDark = currentUiMode and Configuration.UI_MODE_NIGHT_MASK ==
+                                    Configuration.UI_MODE_NIGHT_YES
                             moviesViewModel.onToggleDarkModeClicked(isDark)
-                        }
-                    ) {
-                        Icon(
-                            imageVector = vectorResource(id = R.drawable.ic_switch_dark_mode)
-                        )
-                    }
-
-                    // Heart
-                    IconButton(onClick = { moviesViewModel.onHeartClicked() }) {
-                        Icon(
-                            imageVector = vectorResource(id = R.drawable.ic_heart),
-                            tint = Color.Red
-                        )
-                    }
+                        },
+                        onHeartClicked = { /*TODO*/ })
                 }
             )
         }
@@ -98,6 +75,49 @@ fun MoviesScreen(
     }
 }
 
+@Composable
+fun AppBarMenu(
+    sortOrder: Int,
+    onSortByStarClicked: () -> Unit,
+    onSortByYearClicked: () -> Unit,
+    onToggleDarkModelClicked: () -> Unit,
+    onHeartClicked: () -> Unit
+) {
+    if (sortOrder == MoviesViewModel.SORT_ORDER_YEAR) {
+        // Sort By Star
+        IconButton(onClick = { onSortByStarClicked() }) {
+            Icon(
+                imageVector = vectorResource(id = R.drawable.ic_star)
+            )
+        }
+    } else {
+        // Sort By Year
+        IconButton(onClick = { onSortByYearClicked() }) {
+            Icon(
+                imageVector = vectorResource(id = R.drawable.ic_calendar)
+            )
+        }
+    }
+
+    // Dark Mode
+    IconButton(
+        onClick = {
+            onToggleDarkModelClicked()
+        }
+    ) {
+        Icon(
+            imageVector = vectorResource(id = R.drawable.ic_switch_dark_mode)
+        )
+    }
+
+    // Heart
+    IconButton(onClick = { onHeartClicked() }) {
+        Icon(
+            imageVector = vectorResource(id = R.drawable.ic_heart),
+            tint = Color.Red
+        )
+    }
+}
 
 @Composable
 fun BodyContent(
