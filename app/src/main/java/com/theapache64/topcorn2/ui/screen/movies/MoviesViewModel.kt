@@ -1,15 +1,13 @@
 package com.theapache64.topcorn2.ui.screen.movies
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.data.repositories.movies.MoviesRepo
 import com.theapache64.topcorn2.model.Category
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 /**
  * Created by theapache64 : Jan 04 Mon,2021 @ 00:27
@@ -65,7 +63,11 @@ class MoviesViewModel @ViewModelInject constructor(
         }
     }
 
-    private val sortedOrder = MutableStateFlow(SORT_ORDER_YEAR)
+
+    private val _toggleDarkMode = MutableStateFlow<Boolean?>(null)
+    val toggleDarkMode: StateFlow<Boolean?> = _toggleDarkMode
+
+    val sortedOrder = MutableStateFlow(SORT_ORDER_YEAR)
 
     val movies: Flow<Resource<List<Category>>> = sortedOrder.flatMapLatest { sortOrder ->
         moviesRepo
@@ -94,8 +96,23 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
     fun onMovieClicked(it: Movie) {
+
+    }
+
+    fun onToggleDarkModeClicked(isDarkMode: Boolean) {
+        _toggleDarkMode.value = isDarkMode.not()
+    }
+
+    fun onHeartClicked() {
+
+    }
+
+    fun onSortByRatingClicked() {
         sortedOrder.value = SORT_ORDER_RATING
     }
 
+    fun onSortByYearClicked() {
+        sortedOrder.value = SORT_ORDER_YEAR
+    }
 
 }

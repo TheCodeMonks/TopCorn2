@@ -1,22 +1,24 @@
 package com.theapache64.topcorn2.ui.screen.movies
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.AmbientConfiguration
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.theapache64.topcorn2.R
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.model.Category
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
@@ -30,10 +32,79 @@ import timber.log.Timber
 @Composable
 fun MoviesScreen(
     moviesViewModel: MoviesViewModel
-
 ) {
-    val moviesResponse = moviesViewModel.movies.collectAsState(initial = Resource.Initial())
-    when (moviesResponse.value) {
+    val moviesResponseState = moviesViewModel.movies.collectAsState(initial = Resource.Initial())
+    val sortOrder by moviesViewModel.sortedOrder.collectAsState()
+    val currentUiMode = AmbientConfiguration.current.uiMode
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                backgroundColor = MaterialTheme.colors.surface,
+                elevation = 0.dp,
+                title = {
+                    Text(
+                        text = "TopCorn 2"
+                    )
+                },
+                actions = {
+
+                    if (sortOrder == MoviesViewModel.SORT_ORDER_YEAR) {
+                        // Sort By Star
+                        IconButton(onClick = { moviesViewModel.onSortByRatingClicked() }) {
+                            Icon(
+                                imageVector = vectorResource(id = R.drawable.ic_star)
+                            )
+                        }
+                    } else {
+                        // Sort By Year
+                        IconButton(onClick = { moviesViewModel.onSortByYearClicked() }) {
+                            Icon(
+                                imageVector = vectorResource(id = R.drawable.ic_calendar)
+                            )
+                        }
+                    }
+
+                    // Dark Mode
+                    IconButton(
+                        onClick = {
+                            val isDark =
+                                currentUiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+                            moviesViewModel.onToggleDarkModeClicked(isDark)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = vectorResource(id = R.drawable.ic_switch_dark_mode)
+                        )
+                    }
+
+                    // Heart
+                    IconButton(onClick = { moviesViewModel.onHeartClicked() }) {
+                        Icon(
+                            imageVector = vectorResource(id = R.drawable.ic_heart),
+                            tint = Color.Red
+                        )
+                    }
+                }
+            )
+        }
+    ) {
+        BodyContent(
+            moviesResponse = moviesResponseState.value,
+            onMovieClicked = {
+                moviesViewModel.onMovieClicked(it)
+            }
+        )
+    }
+}
+
+
+@Composable
+fun BodyContent(
+    moviesResponse: Resource<List<Category>>,
+    onMovieClicked: (Movie) -> Unit
+) {
+    when (moviesResponse) {
         is Resource.Initial -> {
             Timber.d("MoviesScreen: Initial")
         }
@@ -44,10 +115,11 @@ fun MoviesScreen(
         is Resource.Success -> {
             Timber.d("MoviesScreen: Success")
             LazyColumn {
-                itemsIndexed((moviesResponse.value as Resource.Success<List<Category>>).data) { index, category ->
-                    CategoryRow(category = category) {
-                        moviesViewModel.onMovieClicked(it)
-                    }
+                itemsIndexed(moviesResponse.data) { _, category ->
+                    CategoryRow(
+                        category = category,
+                        onMovieClicked = onMovieClicked
+                    )
                 }
             }
         }
@@ -56,7 +128,6 @@ fun MoviesScreen(
         }
     }
 }
-
 
 private val cardWidth = 150.dp
 
@@ -71,6 +142,8 @@ fun MovieItem(
             .preferredWidth(cardWidth)
             .padding(10.dp)
     ) {
+
+        // Poster
         Card(
             modifier = Modifier.clickable(onClick = { onMovieClicked(movie) })
         ) {
@@ -93,12 +166,25 @@ fun MovieItem(
         )
 
         // Rating
-        Text(
-            text = movie.rating.toString(),
-            color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
-            style = MaterialTheme.typography.overline,
-            modifier = Modifier.padding(top = 2.dp)
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Star
+            Icon(
+                modifier = Modifier.padding(end = 4.dp).preferredSize(12.dp),
+                imageVector = vectorResource(id = R.drawable.ic_rating),
+                tint = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
+            )
+
+            // Rating
+            Text(
+                text = movie.rating.toString(),
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+                style = MaterialTheme.typography.overline,
+                modifier = Modifier.padding(top = 2.dp)
+            )
+
+        }
     }
 }
 
