@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
 @Entity(
@@ -13,6 +14,7 @@ import java.io.Serializable
         Index("imdbUrl", unique = true)
     ]
 )
+@JsonClass(generateAdapter = true)
 data class Movie(
     @Json(name = "actors")
     val actors: List<String>,
@@ -29,7 +31,7 @@ data class Movie(
     @Json(name = "imdb_url")
     val imdbUrl: String, // /title/tt0055630/
     @Json(name = "name")
-    val name: String, // Yôjinbô
+    val title: String, // Yôjinbô
     @Json(name = "rating")
     val rating: Float, // 8.2
     @Json(name = "year")

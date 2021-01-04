@@ -38,6 +38,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
         useIR = true
+        // Disabling coroutine's ExperimentalCoroutinesApi warning
+        freeCompilerArgs += [
+                "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-Xuse-experimental=kotlin.time.ExperimentalTime"
+        ]
     }
 
     composeOptions {
@@ -99,4 +104,7 @@ dependencies {
 
     // Kotlinx Coroutines Core : Coroutines support libraries for Kotlin
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
+
+    // Accompanist Coil Integration : A collection of utilities for Jetpack Compose
+    implementation 'dev.chrisbanes.accompanist:accompanist-coil:0.4.1'
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.theapache64.topcorn2.ui.main.MainViewModel
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,8 +35,13 @@ class SplashFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             splashViewModel.isSplashTimeFinished.collect { isSplashTimeFinished ->
                 Timber.d("onCreateView: Should launch is $isSplashTimeFinished")
+
                 if (isSplashTimeFinished) {
-                    mainViewModel.onSplashTimeFinished()
+                    val navController = findNavController()
+
+                    navController.navigate(
+                        SplashFragmentDirections.actionSplashFragmentToMoviesFragment()
+                    )
                 }
             }
         }

@@ -27,6 +27,20 @@
     "name": "Kotlinx Coroutines Core",
     "description": "Coroutines support libraries for Kotlin"
    }
+  },
+  {
+   "id": 3,
+   "type": "implementation",
+   "installed_name": "accompanist",
+   "gpm_dep": {
+    "artifact_id": "accompanist-coil",
+    "default_type": "implementation",
+    "docs": "https://mvnrepository.com/artifact/dev.chrisbanes.accompanist/accompanist-coil",
+    "get_from": "Central",
+    "group_id": "dev.chrisbanes.accompanist",
+    "name": "Accompanist Coil Integration",
+    "description": "A collection of utilities for Jetpack Compose"
+   }
   }
  ]
 }

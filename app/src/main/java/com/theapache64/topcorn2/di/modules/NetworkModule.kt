@@ -7,7 +7,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -25,7 +24,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRavenApi(okHttpClient: OkHttpClient, moshi: Moshi): ApiInterface {
+    fun provideRavenApi(moshi: Moshi): ApiInterface {
         return Retrofit.Builder()
             .baseUrl("https://raw.githubusercontent.com/theapache64/top250/master/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))

@@ -5,6 +5,8 @@ package com.theapache64.topcorn2.utils.calladapter.flow
  */
 sealed class Resource<T> {
 
+    class Initial<T> : Resource<T>()
+
     class Loading<T> : Resource<T>()
 
     data class Success<T>(

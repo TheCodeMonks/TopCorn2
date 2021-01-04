@@ -22,13 +22,10 @@ class MoviesRepo @Inject constructor(
 ) {
 
     companion object {
-        @ExperimentalTime
         private val MOVIE_EXPIRY_IN_MILLIS = 1.hours.inMilliseconds.toLong()
         private const val KEY_LAST_SYNCED = "last_synced"
     }
 
-    @ExperimentalCoroutinesApi
-    @ExperimentalTime
     fun getTop250Movies(): Flow<Resource<List<Movie>>> {
         return object : NetworkBoundResource<List<Movie>, List<Movie>>() {
 
