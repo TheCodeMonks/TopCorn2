@@ -16,4 +16,7 @@ interface MoviesDao {
 
     @Insert
     fun addAll(data: List<Movie>)
+
+    @Query("SELECT * FROM movies WHERE id = :id")
+    suspend fun getMovie(id: Int): Movie?
 }

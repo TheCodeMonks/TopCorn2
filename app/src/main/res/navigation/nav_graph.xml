@@ -17,5 +17,17 @@
 
     <fragment
         android:id="@+id/movies_fragment"
-        android:name="com.theapache64.topcorn2.ui.screen.movies.MoviesFragment" />
+        android:name="com.theapache64.topcorn2.ui.screen.movies.MoviesFragment" >
+        <action
+            android:id="@+id/action_movies_fragment_to_movie_detail_fragment"
+            app:destination="@id/movie_detail_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/movie_detail_fragment"
+        android:name="com.theapache64.topcorn2.ui.screen.detail.MovieDetailFragment" >
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

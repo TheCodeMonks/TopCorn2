@@ -41,6 +41,20 @@
     "name": "Accompanist Coil Integration",
     "description": "A collection of utilities for Jetpack Compose"
    }
+  },
+  {
+   "id": 4,
+   "type": "implementation",
+   "installed_name": "livedata-ktx",
+   "gpm_dep": {
+    "artifact_id": "lifecycle-livedata-ktx",
+    "default_type": "implementation",
+    "docs": "https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-livedata-ktx",
+    "get_from": "Google",
+    "group_id": "androidx.lifecycle",
+    "name": "LiveData Kotlin Extensions",
+    "description": "Kotlin extensions for 'livedata' artifact"
+   }
   }
  ]
 }

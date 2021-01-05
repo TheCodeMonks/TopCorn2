@@ -1,13 +1,19 @@
 package com.theapache64.topcorn2.ui.screen.movies
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.data.repositories.movies.MoviesRepo
 import com.theapache64.topcorn2.model.Category
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
-import kotlinx.coroutines.flow.*
+import com.theapache64.topcorn2.utils.livedata.SingleLiveEvent
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 /**
  * Created by theapache64 : Jan 04 Mon,2021 @ 00:27
@@ -20,7 +26,7 @@ class MoviesViewModel @ViewModelInject constructor(
     companion object {
 
         const val SORT_ORDER_YEAR = 1
-        private const val SORT_ORDER_RATING = 2
+        const val SORT_ORDER_RATING = 2
 
         /**
          * To convert movie list to categorized feed
@@ -67,9 +73,12 @@ class MoviesViewModel @ViewModelInject constructor(
     private val _toggleDarkMode = MutableStateFlow<Boolean?>(null)
     val toggleDarkMode: StateFlow<Boolean?> = _toggleDarkMode
 
-    val sortedOrder = MutableStateFlow(SORT_ORDER_YEAR)
+    val sortedOrder = SingleLiveEvent<Int>().apply {
+        value = SORT_ORDER_RATING
+    }
 
-    val movies: Flow<Resource<List<Category>>> = sortedOrder.flatMapLatest { sortOrder ->
+    val movies = sortedOrder.switchMap { sortOrder ->
+        Timber.d("Sort order changed : $sortOrder")
         moviesRepo
             .getTop250Movies()
             .map {
@@ -92,11 +101,15 @@ class MoviesViewModel @ViewModelInject constructor(
                         Resource.Error(it.errorData)
                     }
                 }
-            }
+            }.asLiveData()
     }
 
-    fun onMovieClicked(it: Movie) {
+    private val _goToMovieDetail = SingleLiveEvent<Int>()
+    val goToMovieDetail: LiveData<Int> = _goToMovieDetail
 
+    fun onMovieClicked(it: Movie) {
+        Timber.d("onMovieClicked: Clicked on movie: ${it.id}")
+        _goToMovieDetail.value = it.id
     }
 
     fun onToggleDarkModeClicked(isDarkMode: Boolean) {

@@ -64,6 +64,7 @@ dependencies {
 
     // Compose
     implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
@@ -107,4 +108,7 @@ dependencies {
 
     // Accompanist Coil Integration : A collection of utilities for Jetpack Compose
     implementation 'dev.chrisbanes.accompanist:accompanist-coil:0.4.1'
+
+    // LiveData Kotlin Extensions : Kotlin extensions for 'livedata' artifact
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-rc01'
 }

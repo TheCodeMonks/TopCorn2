@@ -55,6 +55,8 @@ class MoviesRepo @Inject constructor(
         }.asFlow().flowOn(Dispatchers.IO)
     }
 
+    suspend fun getMovie(movieId : Int) = moviesDao.getMovie(movieId)
+
     @ExperimentalTime
     private fun isExpired(lastSynced: Long): Boolean {
         val currentTime = System.currentTimeMillis()
