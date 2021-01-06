@@ -3,7 +3,6 @@ package com.theapache64.topcorn2.ui.screen.movies
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -21,6 +20,9 @@ import androidx.compose.ui.unit.dp
 import com.theapache64.topcorn2.R
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.model.Category
+import com.theapache64.topcorn2.ui.common.Fakes
+import com.theapache64.topcorn2.ui.common.Poster
+import com.theapache64.topcorn2.ui.common.RetryMessage
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
 import dev.chrisbanes.accompanist.coil.CoilImage
@@ -70,6 +72,9 @@ fun MoviesScreen(
             moviesResponse = moviesResponseState,
             onMovieClicked = {
                 moviesViewModel.onMovieClicked(it)
+            },
+            onRetryClicked = {
+                moviesViewModel.onRetryClicked()
             }
         )
     }
@@ -122,32 +127,47 @@ fun AppBarMenu(
 @Composable
 fun BodyContent(
     moviesResponse: Resource<List<Category>>,
-    onMovieClicked: (Movie) -> Unit
+    onMovieClicked: (Movie) -> Unit,
+    onRetryClicked: () -> Unit
 ) {
     when (moviesResponse) {
-        is Resource.Initial -> {
-            Timber.d("MoviesScreen: Initial")
-        }
-        is Resource.Loading -> {
+
+        is Resource.Initial, is Resource.Loading -> {
             Timber.d("MoviesScreen: Loading")
-            Text(text = "Loading")
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
         }
         is Resource.Success -> {
             Timber.d("MoviesScreen: Success")
-            LazyColumn {
+            /*LazyColumn {
                 itemsIndexed(moviesResponse.data) { _, category ->
                     CategoryRow(
                         category = category,
                         onMovieClicked = onMovieClicked
                     )
                 }
-            }
+            }*/
+
+            RetryMessage(
+                message = "Uhh ho! Something went wrong! Please retry",
+                onRetryClicked = onRetryClicked
+            )
         }
         is Resource.Error -> {
             Timber.d("MoviesScreen: Error")
+            RetryMessage(
+                message = moviesResponse.errorData,
+                onRetryClicked = onRetryClicked
+            )
         }
     }
 }
+
 
 private val cardWidth = 150.dp
 
@@ -164,18 +184,14 @@ fun MovieItem(
     ) {
 
         // Poster
-        Card(
-            modifier = Modifier.clickable(onClick = { onMovieClicked(movie) })
-        ) {
-            CoilImage(
-                data = movie.thumbUrl,
-                fadeIn = true,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .preferredWidth(cardWidth)
-                    .preferredHeight(200.dp)
-            )
-        }
+        Poster(
+            modifier = Modifier
+                .preferredWidth(cardWidth)
+                .preferredHeight(200.dp),
+            movie = movie,
+            onMovieClicked = onMovieClicked
+        )
+
         // Title
         Text(
             text = movie.title,
@@ -207,6 +223,7 @@ fun MovieItem(
         }
     }
 }
+
 
 @Composable
 fun CategoryRow(
@@ -249,28 +266,11 @@ fun PreviewCategory() {
 private fun getFakeCategory() = Category(
     id = 0,
     genre = "Action",
-    movies = listOf(
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-        getFakeMovie(),
-    )
+    movies = mutableListOf<Movie>().apply {
+        repeat(10) {
+            Fakes.getFakeMovie()
+        }
+    }
 )
 
 @Preview
@@ -278,22 +278,9 @@ private fun getFakeCategory() = Category(
 fun PreviewMovie() {
     TopCornTheme {
         MovieItem(
-            movie = getFakeMovie(),
+            movie = Fakes.getFakeMovie(),
             onMovieClicked = { /*TODO*/ }
         )
     }
 }
 
-@Composable
-private fun getFakeMovie() = Movie(
-    actors = listOf(),
-    desc = "",
-    directors = listOf(),
-    genre = listOf(),
-    imageUrl = "",
-    thumbUrl = "https://picsum.photos/id/234/400/600",
-    imdbUrl = "",
-    title = "Ironman",
-    rating = 8f,
-    year = 0
-)

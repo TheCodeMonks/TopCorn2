@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,9 +33,7 @@ class MovieDetailFragment : Fragment() {
                 TopCornTheme {
                     MovieDetailScreen(
                         viewModel
-                    ) {
-                        findNavController().navigateUp()
-                    }
+                    )
                 }
             }
         }
