@@ -10,11 +10,8 @@ import com.theapache64.topcorn2.data.repositories.movies.MoviesRepo
 import com.theapache64.topcorn2.model.Category
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
 import com.theapache64.topcorn2.utils.livedata.SingleLiveEvent
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
@@ -77,7 +74,7 @@ class MoviesViewModel @ViewModelInject constructor(
     val toggleDarkMode: StateFlow<Boolean?> = _toggleDarkMode
 
     val sortedOrder = SingleLiveEvent<Int>().apply {
-        value = SORT_ORDER_RATING
+        value = SORT_ORDER_YEAR
     }
 
     val movies = sortedOrder.switchMap { sortOrder ->

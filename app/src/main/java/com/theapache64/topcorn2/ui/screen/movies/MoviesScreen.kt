@@ -1,8 +1,8 @@
 package com.theapache64.topcorn2.ui.screen.movies
 
 import android.content.res.Configuration
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -11,7 +11,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.AmbientConfiguration
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -25,7 +24,6 @@ import com.theapache64.topcorn2.ui.common.Poster
 import com.theapache64.topcorn2.ui.common.RetryMessage
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
-import dev.chrisbanes.accompanist.coil.CoilImage
 import timber.log.Timber
 
 /**
@@ -68,15 +66,17 @@ fun MoviesScreen(
             )
         }
     ) {
-        BodyContent(
-            moviesResponse = moviesResponseState,
-            onMovieClicked = {
-                moviesViewModel.onMovieClicked(it)
-            },
-            onRetryClicked = {
-                moviesViewModel.onRetryClicked()
-            }
-        )
+        Surface {
+            BodyContent(
+                moviesResponse = moviesResponseState,
+                onMovieClicked = {
+                    moviesViewModel.onMovieClicked(it)
+                },
+                onRetryClicked = {
+                    moviesViewModel.onRetryClicked()
+                }
+            )
+        }
     }
 }
 
@@ -144,19 +144,14 @@ fun BodyContent(
         }
         is Resource.Success -> {
             Timber.d("MoviesScreen: Success")
-            /*LazyColumn {
+            LazyColumn {
                 itemsIndexed(moviesResponse.data) { _, category ->
                     CategoryRow(
                         category = category,
                         onMovieClicked = onMovieClicked
                     )
                 }
-            }*/
-
-            RetryMessage(
-                message = "Uhh ho! Something went wrong! Please retry",
-                onRetryClicked = onRetryClicked
-            )
+            }
         }
         is Resource.Error -> {
             Timber.d("MoviesScreen: Error")
