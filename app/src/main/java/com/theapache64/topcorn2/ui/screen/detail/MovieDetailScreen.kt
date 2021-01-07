@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,7 +29,10 @@ fun MovieDetailScreen(
     val movie by viewModel.movie.collectAsState(initial = null)
     movie?.let {
         MovieDetail(
-            movie = it
+            movie = it,
+            onOpenImdbClicked = {
+
+            }
         )
     }
 }
@@ -36,12 +40,14 @@ fun MovieDetailScreen(
 @Composable
 fun MovieDetail(
     modifier: Modifier = Modifier,
-    movie: Movie
+    movie: Movie,
+    onOpenImdbClicked: () -> Unit
 ) {
     Column(
         modifier = modifier.padding(
-            start = 10.dp,
-            top = 10.dp
+            start = 15.dp,
+            end = 15.dp,
+            top = 20.dp,
         )
     ) {
 
@@ -49,11 +55,12 @@ fun MovieDetail(
         Icon(
             imageVector = vectorResource(id = R.drawable.ic_back_arrow),
             tint = MaterialTheme.colors.onSurface,
-            modifier = Modifier.clickable(
-                onClick = {
+            modifier = Modifier
+                .clickable(
+                    onClick = {
 
-                }
-            )
+                    }
+                ).padding(10.dp)
         )
 
         Row(
@@ -63,14 +70,15 @@ fun MovieDetail(
             // Poster
             Poster(
                 modifier = Modifier
-                    .preferredWidth(200.dp)
-                    .preferredHeight(250.dp)
-                    .padding(end = 4.dp),
+                    .preferredWidth(180.dp)
+                    .preferredHeight(250.dp),
                 movie = movie,
                 onMovieClicked = { /*TODO*/ }
             )
 
-            Column {
+            Column(
+                modifier = Modifier.padding(start = 12.dp)
+            ) {
                 // Rating
                 MovieMeta(key = "Rating", value = movie.rating.toString())
 
@@ -83,8 +91,35 @@ fun MovieDetail(
                 // Genre
                 MovieMeta(key = "Genre", value = movie.genre.joinToString(separator = ", "))
             }
+        }
+
+        // Title
+        Text(
+            text = movie.title,
+            modifier = Modifier.padding(
+                top = 10.dp,
+                bottom = 4.dp
+            ),
+            style = MaterialTheme.typography.h5
+        )
+
+        // Desc
+        Text(
+            text = movie.desc,
+            modifier = Modifier.padding(
+                bottom = 10.dp
+            ),
+            style = MaterialTheme.typography.body1
+        )
 
 
+        // IMDB Button
+        OutlinedButton(
+            onClick = {
+                onOpenImdbClicked()
+            }
+        ) {
+            Text(text = "OPEN IMDB")
         }
     }
 }
@@ -95,15 +130,21 @@ fun MovieMeta(
     key: String,
     value: String
 ) {
-    Row(modifier = modifier) {
+    Column(modifier = modifier) {
         // Key
         Text(
-            text = "$key : ",
+            text = key,
+            style = MaterialTheme.typography.caption,
             color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
         )
 
         // Value
-        Text(text = value)
+        Text(
+            style = MaterialTheme.typography.body1,
+            text = value
+        )
+
+        Spacer(modifier = Modifier.height(5.dp))
     }
 }
 
@@ -111,6 +152,8 @@ fun MovieMeta(
 @Composable
 fun MovieDetailPreview() {
     TopCornTheme {
-        MovieDetail(movie = Fakes.getFakeMovie())
+        MovieDetail(movie = Fakes.getFakeMovie()) {
+
+        }
     }
 }

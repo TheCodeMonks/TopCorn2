@@ -15,7 +15,7 @@ object Fakes {
                     add("Actor $it")
                 }
             },
-        desc = "",
+        desc = "Aw, addled breeze. you won't fight the freighter.Nuptia, ignigena, et cannabis.Place the celery in a soup pot, and whisk carefully with roasted tea.Aye, proud wave. you won't lead the pacific ocean.",
         directors = mutableListOf<String>()
             .apply {
                 repeat(3) {

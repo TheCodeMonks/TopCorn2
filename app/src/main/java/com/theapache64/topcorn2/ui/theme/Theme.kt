@@ -1,11 +1,13 @@
 package com.theapache64.topcorn2.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 /**
@@ -17,7 +19,12 @@ val LightColors = lightColors(
     surface = Color.White,
     onSurface = Color.Black
 )
-val DarkColors = darkColors()
+val DarkColors = darkColors(
+    primary = Color.White,
+    primaryVariant = Color.White,
+    surface = Color.Black,
+    onSurface = Color.White
+)
 
 @Composable
 fun TopCornTheme(
@@ -28,7 +35,9 @@ fun TopCornTheme(
         typography = TopCornTypography,
         colors = if (darkTheme) DarkColors else LightColors
     ) {
-        Surface {
+        Surface(
+            modifier = Modifier.fillMaxSize()
+        ) {
             content()
         }
     }
