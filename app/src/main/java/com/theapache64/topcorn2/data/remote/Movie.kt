@@ -11,7 +11,7 @@ import java.io.Serializable
 @Entity(
     tableName = "movies",
     indices = [
-        Index("imdbUrl", unique = true)
+        Index("imdbPath", unique = true)
     ]
 )
 @JsonClass(generateAdapter = true)
@@ -29,7 +29,7 @@ data class Movie(
     @Json(name = "thumb_url")
     val thumbUrl: String,
     @Json(name = "imdb_url")
-    val imdbUrl: String, // /title/tt0055630/
+    val imdbPath: String, // /title/tt0055630/
     @Json(name = "name")
     val title: String, // Yôjinbô
     @Json(name = "rating")

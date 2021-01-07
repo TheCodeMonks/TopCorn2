@@ -28,7 +28,10 @@ fun MovieDetailScreen(
         MovieDetail(
             movie = it,
             onOpenImdbClicked = {
-                viewModel.onOpenImdbClicked()
+                viewModel.onOpenImdbClicked(it)
+            },
+            onBackPressed = {
+                viewModel.onBackPressed()
             }
         )
     }
@@ -38,7 +41,8 @@ fun MovieDetailScreen(
 fun MovieDetail(
     modifier: Modifier = Modifier,
     movie: Movie,
-    onOpenImdbClicked: () -> Unit
+    onOpenImdbClicked: () -> Unit,
+    onBackPressed: () -> Unit
 ) {
 
     Scaffold(
@@ -46,7 +50,7 @@ fun MovieDetail(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { onBackPressed() }) {
                         Icon(
                             imageVector = vectorResource(id = R.drawable.ic_back_arrow)
                         )
@@ -120,7 +124,6 @@ fun MovieDetail(
                     style = MaterialTheme.typography.body1
                 )
 
-
                 // IMDB Button
                 OutlinedButton(
                     onClick = {
@@ -164,8 +167,10 @@ fun MovieMeta(
 @Composable
 fun MovieDetailPreview() {
     TopCornTheme {
-        MovieDetail(movie = Fakes.getFakeMovie()) {
-
-        }
+        MovieDetail(
+            movie = Fakes.getFakeMovie(),
+            onBackPressed = {},
+            onOpenImdbClicked = {}
+        )
     }
 }

@@ -9,9 +9,9 @@ import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.data.repositories.movies.MoviesRepo
 import com.theapache64.topcorn2.model.Category
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
+import com.theapache64.topcorn2.utils.flow.mutableEventFlow
 import com.theapache64.topcorn2.utils.livedata.SingleLiveEvent
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
@@ -27,6 +27,7 @@ class MoviesViewModel @ViewModelInject constructor(
 
         const val SORT_ORDER_YEAR = 1
         const val SORT_ORDER_RATING = 2
+        const val DEFAULT_SORT_ORDER = SORT_ORDER_YEAR
 
         /**
          * To convert movie list to categorized feed
@@ -70,11 +71,11 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
 
-    private val _toggleDarkMode = MutableStateFlow<Boolean?>(null)
-    val toggleDarkMode: StateFlow<Boolean?> = _toggleDarkMode
+    private val _toggleDarkMode = mutableEventFlow<Boolean>()
+    val toggleDarkMode: SharedFlow<Boolean> = _toggleDarkMode
 
     val sortedOrder = SingleLiveEvent<Int>().apply {
-        value = SORT_ORDER_YEAR
+        value = DEFAULT_SORT_ORDER
     }
 
     val movies = sortedOrder.switchMap { sortOrder ->
@@ -113,7 +114,7 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
     fun onToggleDarkModeClicked(isDarkMode: Boolean) {
-        _toggleDarkMode.value = isDarkMode.not()
+        _toggleDarkMode.tryEmit(isDarkMode.not())
     }
 
     fun onHeartClicked() {

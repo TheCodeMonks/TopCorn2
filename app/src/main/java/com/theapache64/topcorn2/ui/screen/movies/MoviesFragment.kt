@@ -47,6 +47,7 @@ class MoviesFragment : Fragment() {
 
         viewModel.toggleDarkMode.asLiveData().observe(viewLifecycleOwner) {
             it?.let { isDark ->
+                Timber.d("onCreateView: Fired!!!")
                 val flag = if (isDark) {
                     AppCompatDelegate.MODE_NIGHT_YES
                 } else {

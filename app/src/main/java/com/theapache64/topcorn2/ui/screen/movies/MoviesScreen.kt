@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AmbientConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +35,7 @@ fun MoviesScreen(
     moviesViewModel: MoviesViewModel
 ) {
     val moviesResponseState by moviesViewModel.movies.observeAsState(initial = Resource.Initial())
-    val sortOrder by moviesViewModel.sortedOrder.observeAsState(initial = MoviesViewModel.SORT_ORDER_RATING)
+    val sortOrder by moviesViewModel.sortedOrder.observeAsState()
     val currentUiMode = AmbientConfiguration.current.uiMode
 
     Scaffold(
@@ -44,7 +45,7 @@ fun MoviesScreen(
                 elevation = 0.dp,
                 title = {
                     Text(
-                        text = "TopCorn 2"
+                        text = stringResource(id = R.string.app_name)
                     )
                 },
                 actions = {
@@ -61,7 +62,10 @@ fun MoviesScreen(
                                     Configuration.UI_MODE_NIGHT_YES
                             moviesViewModel.onToggleDarkModeClicked(isDark)
                         },
-                        onHeartClicked = { /*TODO*/ })
+                        onHeartClicked = {
+                            moviesViewModel.onHeartClicked()
+                        }
+                    )
                 }
             )
         }

@@ -30,7 +30,7 @@ object Fakes {
             },
         imageUrl = "",
         thumbUrl = "https://picsum.photos/id/234/400/600",
-        imdbUrl = "",
+        imdbPath = "/title/tt0082096",
         title = "Ironman",
         rating = 8f,
         year = 0
