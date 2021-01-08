@@ -74,12 +74,16 @@ class MoviesViewModel @ViewModelInject constructor(
     private val _toggleDarkMode = mutableEventFlow<Boolean>()
     val toggleDarkMode: SharedFlow<Boolean> = _toggleDarkMode
 
-    val sortedOrder = SingleLiveEvent<Int>().apply {
+    val sortOrder = SingleLiveEvent<Int>().apply {
         value = DEFAULT_SORT_ORDER
     }
 
-    val movies = sortedOrder.switchMap { sortOrder ->
+    private val _sortOrderToast = mutableEventFlow<Int>()
+    val sortOrderToast: SharedFlow<Int> = _sortOrderToast
+
+    val movies = sortOrder.switchMap { sortOrder ->
         Timber.d("Sort order changed : $sortOrder")
+        _sortOrderToast.tryEmit(sortOrder)
         moviesRepo
             .getTop250Movies()
             .map {
@@ -122,16 +126,16 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
     fun onSortByRatingClicked() {
-        sortedOrder.value = SORT_ORDER_RATING
+        sortOrder.value = SORT_ORDER_RATING
     }
 
     fun onSortByYearClicked() {
-        sortedOrder.value = SORT_ORDER_YEAR
+        sortOrder.value = SORT_ORDER_YEAR
     }
 
     fun onRetryClicked() {
         // Resetting sort order to fire new data request
-        sortedOrder.value = sortedOrder.value
+        sortOrder.value = sortOrder.value
     }
 
 }

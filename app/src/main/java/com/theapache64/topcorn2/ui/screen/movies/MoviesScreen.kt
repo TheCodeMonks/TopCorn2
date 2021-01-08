@@ -35,7 +35,7 @@ fun MoviesScreen(
     moviesViewModel: MoviesViewModel
 ) {
     val moviesResponseState by moviesViewModel.movies.observeAsState(initial = Resource.Initial())
-    val sortOrder by moviesViewModel.sortedOrder.observeAsState()
+    val sortOrder by moviesViewModel.sortOrder.observeAsState()
     val currentUiMode = AmbientConfiguration.current.uiMode
 
     Scaffold(
@@ -168,6 +168,7 @@ fun BodyContent(
 }
 
 
+
 private val cardWidth = 150.dp
 
 @Composable
@@ -206,7 +207,9 @@ fun MovieItem(
         ) {
             // Star
             Icon(
-                modifier = Modifier.padding(end = 4.dp).preferredSize(12.dp),
+                modifier = Modifier
+                    .padding(end = 4.dp)
+                    .preferredSize(12.dp),
                 imageVector = vectorResource(id = R.drawable.ic_rating),
                 tint = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
             )

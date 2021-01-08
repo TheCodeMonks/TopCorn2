@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TopCorn 2</string>
+    <string name="movies_sort_order_changed_year">Sorted by year 📅</string>
+    <string name="movies_sort_order_changed_rating">Sorted by rating 🌟</string>
 </resources>

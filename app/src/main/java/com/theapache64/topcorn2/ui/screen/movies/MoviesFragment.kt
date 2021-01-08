@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
+import com.theapache64.topcorn2.R
 import com.theapache64.topcorn2.ui.main.MainViewModel
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +56,23 @@ class MoviesFragment : Fragment() {
                     AppCompatDelegate.MODE_NIGHT_NO
                 }
                 AppCompatDelegate.setDefaultNightMode(flag)
+            }
+        }
+
+
+        viewModel.sortOrderToast.asLiveData().observe(viewLifecycleOwner) { sortOrder ->
+            val msg = when (sortOrder) {
+                MoviesViewModel.SORT_ORDER_YEAR -> R.string.movies_sort_order_changed_year
+                MoviesViewModel.SORT_ORDER_RATING -> R.string.movies_sort_order_changed_rating
+                else -> -1
+            }
+
+            if (msg != -1) {
+                Toast.makeText(
+                    requireContext(),
+                    msg,
+                    Toast.LENGTH_SHORT
+                ).show();
             }
         }
 
