@@ -81,6 +81,7 @@ class MoviesViewModel @ViewModelInject constructor(
     private val _sortOrderToast = mutableEventFlow<Int>()
     val sortOrderToast: SharedFlow<Int> = _sortOrderToast
 
+    // When ever sortOrder changed, load movies
     val movies = sortOrder.switchMap { sortOrder ->
         Timber.d("Sort order changed : $sortOrder")
         _sortOrderToast.tryEmit(sortOrder)
@@ -109,12 +110,11 @@ class MoviesViewModel @ViewModelInject constructor(
             }.asLiveData()
     }
 
-    private val _goToMovieDetail = SingleLiveEvent<Int>()
-    val goToMovieDetail: LiveData<Int> = _goToMovieDetail
+    private val _goToMovieDetail = mutableEventFlow<Int>()
+    val goToMovieDetail: SharedFlow<Int> = _goToMovieDetail
 
     fun onMovieClicked(it: Movie) {
-        Timber.d("onMovieClicked: Clicked on movie: ${it.id}")
-        _goToMovieDetail.value = it.id
+        _goToMovieDetail.tryEmit(it.id)
     }
 
     fun onToggleDarkModeClicked(isDarkMode: Boolean) {
