@@ -12,6 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TopCorn2">
+        <activity
+            android:name=".ui.test.TestActivity"
+            android:exported="true"
+            android:theme="@style/Theme.TopCorn2.NoActionBar" />
 
         <activity
             android:name=".ui.main.MainActivity"
@@ -22,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
