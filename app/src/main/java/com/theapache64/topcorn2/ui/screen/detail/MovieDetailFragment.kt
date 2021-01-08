@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 /**
  * Created by theapache64 : Jan 05 Tue,2021 @ 01:08
@@ -32,14 +32,19 @@ class MovieDetailFragment : Fragment() {
 
         viewModel.init(args.movieId)
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.openImdbUrl.collect { imdbUrl ->
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(imdbUrl)
-                    )
+        viewModel.openImdbUrl.asLiveData().observe(viewLifecycleOwner) { imdbUrl ->
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(imdbUrl)
                 )
+            )
+        }
+
+        val navController = findNavController()
+        viewModel.shouldNavigateUp.asLiveData().observe(viewLifecycleOwner) {
+            if (it) {
+                navController.navigateUp()
             }
         }
 

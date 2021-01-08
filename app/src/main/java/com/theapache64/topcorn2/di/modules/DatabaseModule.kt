@@ -16,6 +16,7 @@ object DatabaseModule {
     @Provides
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "com.theapache64.topcorn2_db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 

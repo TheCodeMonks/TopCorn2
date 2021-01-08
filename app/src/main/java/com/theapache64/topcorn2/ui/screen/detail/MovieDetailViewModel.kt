@@ -5,7 +5,10 @@ import androidx.lifecycle.ViewModel
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.data.repositories.movies.MoviesRepo
 import com.theapache64.topcorn2.utils.flow.mutableEventFlow
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.mapLatest
 
 /**
  * Created by theapache64 : Jan 05 Tue,2021 @ 01:09
@@ -23,6 +26,9 @@ class MovieDetailViewModel @ViewModelInject constructor(
     private val _openImdbUrl = mutableEventFlow<String>()
     val openImdbUrl: SharedFlow<String> = _openImdbUrl
 
+    private val _shouldNavigateUp = mutableEventFlow<Boolean>()
+    val shouldNavigateUp: SharedFlow<Boolean> = _shouldNavigateUp
+
     fun init(movieId: Int) {
         _movieId.tryEmit(movieId)
     }
@@ -32,6 +38,6 @@ class MovieDetailViewModel @ViewModelInject constructor(
     }
 
     fun onBackPressed() {
-
+        _shouldNavigateUp.tryEmit(true)
     }
 }
