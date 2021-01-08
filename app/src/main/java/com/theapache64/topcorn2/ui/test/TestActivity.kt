@@ -8,8 +8,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.setContent
+import androidx.lifecycle.asLiveData
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 /**
@@ -24,7 +26,12 @@ class TestActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
+
+        viewModel.data.asLiveData().observe(this) {
+            Timber.d("onCreate: New data is $it")
+        }
+
+        /*setContent {
             TopCornTheme {
                 val data by viewModel.data.collectAsState(initial = "SOME_DEFAULT_DATA")
                 Timber.d("onCreate: Data is $data")
@@ -32,6 +39,6 @@ class TestActivity : AppCompatActivity() {
                     Text(text = data)
                 }
             }
-        }
+        }*/
     }
 }
