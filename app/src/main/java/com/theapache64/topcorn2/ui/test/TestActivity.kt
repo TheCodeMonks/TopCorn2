@@ -3,6 +3,7 @@ package com.theapache64.topcorn2.ui.test
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -22,7 +23,7 @@ class TestActivity : AppCompatActivity() {
 
         // Observing data
         viewModel.myData.asLiveData().observe(this) {
-            Timber.d("Sort order observed : $it")
+            Timber.d("Sort order : Data is : $it")
         }
     }
 }
