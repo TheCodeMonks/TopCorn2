@@ -6,8 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,8 +34,7 @@ import timber.log.Timber
 fun MoviesScreen(
     moviesViewModel: MoviesViewModel
 ) {
-    val moviesResponseState by moviesViewModel.movies.observeAsState(initial = Resource.Initial())
-    val sortOrder by moviesViewModel.sortOrder.observeAsState()
+    val moviesResponseState by moviesViewModel.movies.collectAsState(initial = Resource.Initial())
     val currentUiMode = AmbientConfiguration.current.uiMode
 
     Scaffold(
@@ -50,7 +49,7 @@ fun MoviesScreen(
                 },
                 actions = {
                     AppBarMenu(
-                        sortOrder = sortOrder!!,
+                        sortOrder = moviesViewModel.sortOrder,
                         onSortByStarClicked = {
                             moviesViewModel.onSortByRatingClicked()
                         },

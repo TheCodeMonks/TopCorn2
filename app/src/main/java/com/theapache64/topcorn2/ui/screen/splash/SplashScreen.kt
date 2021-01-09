@@ -18,9 +18,7 @@ import com.theapache64.topcorn2.R
  * Created by theapache64 : Jan 03 Sun,2021 @ 21:15
  */
 @Composable
-fun SplashScreen(
-    splashViewModel: SplashViewModel
-) {
+fun SplashScreen() {
     Box {
         // Logo
         Logo(

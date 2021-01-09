@@ -43,7 +43,7 @@ class SplashFragment : Fragment() {
 
         setContent {
             TopCornTheme {
-                SplashScreen(viewModel)
+                SplashScreen()
             }
         }
     }

@@ -1,9 +1,9 @@
 package com.theapache64.topcorn2.ui.test
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.mapLatest
+import androidx.lifecycle.map
 import timber.log.Timber
 
 /**
@@ -11,17 +11,15 @@ import timber.log.Timber
  */
 class TestViewModel @ViewModelInject constructor() : ViewModel() {
 
-    private val sortOrder = MutableSharedFlow<String>(
-        replay = 0,
-        extraBufferCapacity = 1
-    )
+    private val sortOrder = MutableLiveData<String>()
 
-    val data = sortOrder.mapLatest {
+    val myData = sortOrder.map {
         Timber.d("Sort order changed to $it")
         "Sort order is $it"
     }
 
     init {
-        sortOrder.tryEmit("year")
+        sortOrder.value = "year"
     }
+
 }

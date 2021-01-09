@@ -4,9 +4,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.theapache64.topcorn2.BuildConfig
+import com.theapache64.topcorn2.utils.flow.mutableEventFlow
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 /**
@@ -19,13 +19,13 @@ class SplashViewModel @ViewModelInject constructor() : ViewModel() {
         const val SPLASH_DELAY = 1500L
     }
 
-    private val _isSplashTimeFinished = MutableStateFlow(false)
-    val isSplashTimeFinished: StateFlow<Boolean> = _isSplashTimeFinished
+    private val _isSplashTimeFinished = mutableEventFlow<Boolean>()
+    val isSplashTimeFinished: SharedFlow<Boolean> = _isSplashTimeFinished
 
     init {
         viewModelScope.launch {
             delay(SPLASH_DELAY)
-            _isSplashTimeFinished.value = true
+            _isSplashTimeFinished.emit(true)
         }
     }
 }
