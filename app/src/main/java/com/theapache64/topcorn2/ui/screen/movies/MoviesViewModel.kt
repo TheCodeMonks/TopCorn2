@@ -1,18 +1,15 @@
 package com.theapache64.topcorn2.ui.screen.movies
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.data.repositories.movies.MoviesRepo
 import com.theapache64.topcorn2.model.Category
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
 import com.theapache64.topcorn2.utils.flow.mutableEventFlow
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 /**
  * Created by theapache64 : Jan 04 Mon,2021 @ 00:27
@@ -77,38 +74,38 @@ class MoviesViewModel @ViewModelInject constructor(
      * The usage of SingleLiveEvent will be replace when we've an answer for
      * https://stackoverflow.com/questions/65633219/sharedflow-maplatest-not-getting-triggered
      */
-    var sortOrder by mutableStateOf(SORT_ORDER_RATING)
+    val sortOrder = MutableLiveData(SORT_ORDER_RATING)
 
     private val _sortOrderToast = mutableEventFlow<Int>()
     val sortOrderToast: SharedFlow<Int> = _sortOrderToast
 
     // When ever sortOrder changed, load movies
-    val movies: Flow<Resource<List<Category>>>
-        get() {
-            return moviesRepo
-                .getTop250Movies()
-                .map {
-                    when (it) {
-                        is Resource.Initial -> {
-                            Resource.Initial()
-                        }
+    val movies = sortOrder.switchMap { newSortOrder ->
+        Timber.d("New sort order is $newSortOrder ")
+        moviesRepo
+            .getTop250Movies()
+            .map {
+                when (it) {
+                    is Resource.Initial -> {
+                        Resource.Initial()
+                    }
 
-                        is Resource.Loading -> {
-                            Resource.Loading()
-                        }
+                    is Resource.Loading -> {
+                        Resource.Loading()
+                    }
 
-                        is Resource.Success -> {
-                            val movies = it.data
-                            val feedItems = convertToFeed(movies, sortOrder)
-                            Resource.Success(null, feedItems)
-                        }
+                    is Resource.Success -> {
+                        val movies = it.data
+                        val feedItems = convertToFeed(movies, newSortOrder)
+                        Resource.Success(null, feedItems)
+                    }
 
-                        is Resource.Error -> {
-                            Resource.Error(it.errorData)
-                        }
+                    is Resource.Error -> {
+                        Resource.Error(it.errorData)
                     }
                 }
-        }
+            }.asLiveData(viewModelScope.coroutineContext)
+    }
 
     private val _goToMovieDetail = mutableEventFlow<Int>()
     val goToMovieDetail: SharedFlow<Int> = _goToMovieDetail
@@ -126,16 +123,16 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
     fun onSortByRatingClicked() {
-        sortOrder = SORT_ORDER_RATING
+        sortOrder.value = SORT_ORDER_RATING
     }
 
     fun onSortByYearClicked() {
-        sortOrder = SORT_ORDER_YEAR
+        sortOrder.value = SORT_ORDER_YEAR
     }
 
     fun onRetryClicked() {
         // Resetting sort order to fire new data request
-        sortOrder = sortOrder
+        sortOrder.value = sortOrder.value
     }
 
 }

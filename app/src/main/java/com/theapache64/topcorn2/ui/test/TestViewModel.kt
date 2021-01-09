@@ -1,9 +1,9 @@
 package com.theapache64.topcorn2.ui.test
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 /**
@@ -11,7 +11,7 @@ import timber.log.Timber
  */
 class TestViewModel @ViewModelInject constructor() : ViewModel() {
 
-    private val sortOrder = MutableLiveData<String>()
+    private val sortOrder = MutableStateFlow<String>("")
 
     val myData = sortOrder.map {
         Timber.d("Sort order changed to $it")
@@ -19,7 +19,7 @@ class TestViewModel @ViewModelInject constructor() : ViewModel() {
     }
 
     init {
-        sortOrder.value = "year"
+        sortOrder.tryEmit("year")
     }
 
 }
