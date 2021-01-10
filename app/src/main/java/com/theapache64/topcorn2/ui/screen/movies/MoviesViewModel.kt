@@ -78,7 +78,7 @@ class MoviesViewModel @ViewModelInject constructor(
     private val _openGitHubUrl = mutableEventFlow<String>()
     val openGitHubUrl: SharedFlow<String> = _openGitHubUrl
 
-    val sortOrder = MutableStateFlow(SORT_ORDER_RATING)
+    val sortOrder = MutableStateFlow(SORT_ORDER_YEAR)
 
     // When ever sortOrder changed, load movies
     val movies = sortOrder.flatMapLatest { newSortOrder ->

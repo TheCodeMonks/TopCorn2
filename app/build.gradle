@@ -99,7 +99,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
-
     // Timber : No-nonsense injectable logging.
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
