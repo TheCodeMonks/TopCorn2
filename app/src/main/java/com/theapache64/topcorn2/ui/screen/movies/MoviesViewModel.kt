@@ -4,7 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.theapache64.topcorn2.data.remote.Movie
-import com.theapache64.topcorn2.data.repositories.movies.MoviesRepo
+import com.theapache64.topcorn2.data.repo.MoviesRepo
 import com.theapache64.topcorn2.model.Category
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
 import com.theapache64.topcorn2.utils.flow.mutableEventFlow

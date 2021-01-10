@@ -242,21 +242,27 @@ fun CategoryRow(
     Column(
         modifier = modifier
     ) {
-        // Title
-        Text(
-            text = category.genre,
-            style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(
-                top = 10.dp,
-                start = 10.dp
-            )
-        )
+        // Category Title
+        CategoryTitle(category)
+
         LazyRow {
             itemsIndexed(category.movies) { index, movie ->
                 MovieItem(movie = movie, onMovieClicked = onMovieClicked)
             }
         }
     }
+}
+
+@Composable
+private fun CategoryTitle(category: Category) {
+    Text(
+        text = category.genre,
+        style = MaterialTheme.typography.subtitle1,
+        modifier = Modifier.padding(
+            top = 10.dp,
+            start = 10.dp
+        )
+    )
 }
 
 @Preview

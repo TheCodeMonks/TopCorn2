@@ -1,4 +1,4 @@
-package com.theapache64.topcorn2.data.repositories.movies
+package com.theapache64.topcorn2.data.repo
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
@@ -8,7 +8,6 @@ import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.utils.NetworkBoundResource
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject

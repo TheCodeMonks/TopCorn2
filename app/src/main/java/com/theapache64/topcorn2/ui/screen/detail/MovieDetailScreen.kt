@@ -82,6 +82,7 @@ fun MovieDetail(
                         onMovieClicked = { /*TODO*/ }
                     )
 
+                    // Meta
                     Column(
                         modifier = Modifier.padding(start = 12.dp)
                     ) {

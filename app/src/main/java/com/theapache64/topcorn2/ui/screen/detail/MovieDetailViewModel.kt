@@ -3,11 +3,10 @@ package com.theapache64.topcorn2.ui.screen.detail
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.theapache64.topcorn2.data.remote.Movie
-import com.theapache64.topcorn2.data.repositories.movies.MoviesRepo
+import com.theapache64.topcorn2.data.repo.MoviesRepo
 import com.theapache64.topcorn2.utils.flow.mutableEventFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapLatest
 
 /**
