@@ -21,6 +21,8 @@ class MoviesViewModel @ViewModelInject constructor(
 
     companion object {
 
+        private const val GITHUB_URL = "https://github.com/TheCodeMonks/topcorn2"
+
         const val SORT_ORDER_YEAR = 1
         const val SORT_ORDER_RATING = 2
         const val DEFAULT_SORT_ORDER = SORT_ORDER_YEAR
@@ -73,6 +75,9 @@ class MoviesViewModel @ViewModelInject constructor(
     private val _sortOrderToast = mutableEventFlow<Int>()
     val sortOrderToast: SharedFlow<Int> = _sortOrderToast
 
+    private val _openGitHubUrl = mutableEventFlow<String>()
+    val openGitHubUrl: SharedFlow<String> = _openGitHubUrl
+
     val sortOrder = MutableStateFlow(SORT_ORDER_RATING)
 
     // When ever sortOrder changed, load movies
@@ -123,7 +128,7 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
     fun onHeartClicked() {
-
+        _openGitHubUrl.tryEmit(GITHUB_URL)
     }
 
     fun onSortByRatingClicked() {

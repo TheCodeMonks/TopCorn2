@@ -1,5 +1,7 @@
 package com.theapache64.topcorn2.ui.screen.movies
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import com.theapache64.topcorn2.R
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 /**
  * Created by theapache64 : Jan 03 Sun,2021 @ 22:47
@@ -53,6 +54,16 @@ class MoviesFragment : Fragment() {
             }
         }
 
+
+        // Open GitHub URL
+        viewModel.openGitHubUrl.asLiveData().observe(viewLifecycleOwner) { githubUrl ->
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(githubUrl)
+                )
+            )
+        }
 
         // Show order change toast
         viewModel.sortOrderToast.asLiveData().observe(viewLifecycleOwner) { sortOrder ->
