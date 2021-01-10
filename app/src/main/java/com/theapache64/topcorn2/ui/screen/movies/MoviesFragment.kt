@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.theapache64.topcorn2.R
 import com.theapache64.topcorn2.ui.theme.TopCornTheme
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 /**
  * Created by theapache64 : Jan 03 Sun,2021 @ 22:47
@@ -35,7 +36,7 @@ class MoviesFragment : Fragment() {
                 val navController = findNavController()
 
                 navController.navigate(
-                    MoviesFragmentDirections.actionMoviesFragmentToMovieDetailFragment(movieId)
+                    MoviesFragmentDirections.actionMoviesFragmentToMovieDetailFragment(movieId),
                 )
             }
         }

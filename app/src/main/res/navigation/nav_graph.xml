@@ -10,8 +10,8 @@
         <action
             android:id="@+id/action_splash_fragment_to_movies_fragment"
             app:destination="@id/movies_fragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:popUpTo="@id/nav_graph"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splash_fragment"
             app:popUpToInclusive="true" />
     </fragment>
 

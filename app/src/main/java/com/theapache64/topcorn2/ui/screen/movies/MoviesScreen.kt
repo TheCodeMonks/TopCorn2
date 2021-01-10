@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.asLiveData
 import com.theapache64.topcorn2.R
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.model.Category
@@ -34,9 +36,10 @@ import timber.log.Timber
 fun MoviesScreen(
     moviesViewModel: MoviesViewModel
 ) {
-    val moviesResponseState by moviesViewModel.movies.observeAsState(initial = Resource.Initial())
-    val sortOrder by moviesViewModel.sortOrder.observeAsState()
+    val moviesResponseState by moviesViewModel.movies
+        .asLiveData().observeAsState(initial = Resource.Initial())
 
+    val sortOrder by moviesViewModel.sortOrder.collectAsState()
     val currentUiMode = AmbientConfiguration.current.uiMode
 
     Scaffold(
@@ -51,7 +54,7 @@ fun MoviesScreen(
                 },
                 actions = {
                     AppBarMenu(
-                        sortOrder = sortOrder!!,
+                        sortOrder = sortOrder,
                         onSortByStarClicked = {
                             moviesViewModel.onSortByRatingClicked()
                         },
@@ -149,7 +152,9 @@ fun BodyContent(
         }
         is Resource.Success -> {
             Timber.d("MoviesScreen: Success")
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
                 itemsIndexed(moviesResponse.data) { _, category ->
                     CategoryRow(
                         category = category,

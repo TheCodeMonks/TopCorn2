@@ -1,14 +1,14 @@
 package com.theapache64.topcorn2.ui.screen.movies
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.data.repositories.movies.MoviesRepo
 import com.theapache64.topcorn2.model.Category
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
 import com.theapache64.topcorn2.utils.flow.mutableEventFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import timber.log.Timber
 
 /**
@@ -70,18 +70,13 @@ class MoviesViewModel @ViewModelInject constructor(
     private val _toggleDarkMode = mutableEventFlow<Boolean>()
     val toggleDarkMode: SharedFlow<Boolean> = _toggleDarkMode
 
-    /**
-     * The usage of SingleLiveEvent will be replace when we've an answer for
-     * https://stackoverflow.com/questions/65633219/sharedflow-maplatest-not-getting-triggered
-     */
-    val sortOrder = MutableLiveData(SORT_ORDER_RATING)
-
     private val _sortOrderToast = mutableEventFlow<Int>()
     val sortOrderToast: SharedFlow<Int> = _sortOrderToast
 
+    val sortOrder = MutableStateFlow(SORT_ORDER_RATING)
+
     // When ever sortOrder changed, load movies
-    val movies = sortOrder.switchMap { newSortOrder ->
-        Timber.d("New sort order is $newSortOrder ")
+    val movies = sortOrder.flatMapLatest { newSortOrder ->
         moviesRepo
             .getTop250Movies()
             .map {
@@ -95,8 +90,12 @@ class MoviesViewModel @ViewModelInject constructor(
                     }
 
                     is Resource.Success -> {
+                        Timber.d("Shifar: Hit one: ")
+                        _sortOrderToast.tryEmit(newSortOrder)
+
                         val movies = it.data
                         val feedItems = convertToFeed(movies, newSortOrder)
+
                         Resource.Success(null, feedItems)
                     }
 
@@ -104,8 +103,13 @@ class MoviesViewModel @ViewModelInject constructor(
                         Resource.Error(it.errorData)
                     }
                 }
-            }.asLiveData(viewModelScope.coroutineContext)
-    }
+            }
+    }.shareIn(
+        // Converting to hot flow
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        replay = 1
+    )
 
     private val _goToMovieDetail = mutableEventFlow<Int>()
     val goToMovieDetail: SharedFlow<Int> = _goToMovieDetail
