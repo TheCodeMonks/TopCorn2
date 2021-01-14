@@ -82,35 +82,26 @@ class MoviesViewModel @ViewModelInject constructor(
 
     // When ever sortOrder changed, load movies
     val movies = sortOrder.flatMapLatest { newSortOrder ->
-        moviesRepo
-            .getTop250Movies()
-            .map {
-                when (it) {
-                    is Resource.Initial -> {
-                        Resource.Initial()
-                    }
-
-                    is Resource.Loading -> {
-                        Resource.Loading()
-                    }
-
-                    is Resource.Success -> {
-                        Timber.d("Shifar: Hit one: ")
-                        _sortOrderToast.tryEmit(newSortOrder)
-
-                        val movies = it.data
-                        val feedItems = convertToFeed(movies, newSortOrder)
-
-                        Resource.Success(null, feedItems)
-                    }
-
-                    is Resource.Error -> {
-                        Resource.Error(it.errorData)
-                    }
+        Timber.d("Sort order changed")
+        flow<Resource<List<Category>>> {
+            moviesRepo
+                .getTop250Movies()
+                .onStart {
+                    emit(Resource.Loading())
                 }
-            }
+                .catch {
+                    emit(Resource.Error(it.message ?: "Something went wrong"))
+                }
+                .collect { movies ->
+                    Timber.d("Resp is: ${movies.size} size")
+                    _sortOrderToast.emit(newSortOrder)
+
+                    val feedItems = convertToFeed(movies, newSortOrder)
+
+                    emit(Resource.Success(null, feedItems))
+                }
+        }
     }.shareIn(
-        // Converting to hot flow
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
         replay = 1

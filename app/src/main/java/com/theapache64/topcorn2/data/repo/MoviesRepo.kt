@@ -25,7 +25,7 @@ class MoviesRepo @Inject constructor(
         private const val KEY_LAST_SYNCED = "last_synced"
     }
 
-    fun getTop250Movies(): Flow<Resource<List<Movie>>> {
+    fun getTop250Movies(): Flow<List<Movie>> {
         return object : NetworkBoundResource<List<Movie>, List<Movie>>() {
 
             override fun fetchFromLocal(): Flow<List<Movie>> {

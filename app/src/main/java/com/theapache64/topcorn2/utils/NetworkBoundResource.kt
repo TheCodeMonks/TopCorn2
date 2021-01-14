@@ -24,7 +24,7 @@ abstract class NetworkBoundResource<DB, REMOTE> {
     abstract fun shouldFetchFromRemote(data: DB): Boolean
 
     @ExperimentalCoroutinesApi
-    fun asFlow() = flow<Resource<DB>> {
+    fun asFlow() = flow<DB> {
 
 
         val localData = fetchFromLocal().first()
@@ -35,21 +35,12 @@ abstract class NetworkBoundResource<DB, REMOTE> {
             // need remote data
             fetchFromRemote()
                 .collect { response ->
-                    when (response) {
+                    if (response is Resource.Success) {
+                        val data = response.data!!
+                        saveRemoteData(data)
 
-                        is Resource.Loading -> {
-                            emit(Resource.Loading())
-                        }
-                        is Resource.Success -> {
-                            val data = response.data!!
-                            saveRemoteData(data)
-
-                            // start watching it
-                            emitLocalDbData()
-                        }
-                        is Resource.Error -> {
-                            emit(Resource.Error(response.errorData))
-                        }
+                        // start watching it
+                        emitLocalDbData()
                     }
                 }
 
@@ -59,14 +50,7 @@ abstract class NetworkBoundResource<DB, REMOTE> {
         }
     }
 
-    @ExperimentalCoroutinesApi
-    private suspend fun FlowCollector<Resource<DB>>.emitLocalDbData() {
-
-        // sending loading status
-        emit(Resource.Loading())
-
-        emitAll(fetchFromLocal().map { dbData ->
-            Resource.Success(null, dbData)
-        })
+    private suspend fun FlowCollector<DB>.emitLocalDbData() {
+        emitAll(fetchFromLocal())
     }
 }

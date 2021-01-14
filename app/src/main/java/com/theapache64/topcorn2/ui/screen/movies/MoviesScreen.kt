@@ -36,8 +36,10 @@ import timber.log.Timber
 fun MoviesScreen(
     moviesViewModel: MoviesViewModel
 ) {
-    val moviesResponseState by moviesViewModel.movies
-        .asLiveData().observeAsState(initial = Resource.Initial())
+    val moviesResponseState by moviesViewModel.movies.asLiveData()
+        .observeAsState(initial = Resource.Initial())
+
+    Timber.d("MoviesScreen: Resp is $moviesResponseState")
 
     val sortOrder by moviesViewModel.sortOrder.collectAsState()
     val currentUiMode = AmbientConfiguration.current.uiMode
