@@ -50,7 +50,6 @@ This project follows the famous MVVM architecture and best practices from Google
 ## Project Structure 📂
 
 ```
-.
 ├── App.kt
 ├── data
 │   ├── local
@@ -61,9 +60,8 @@ This project follows the famous MVVM architecture and best practices from Google
 │   ├── remote
 │   │   ├── ApiInterface.kt
 │   │   └── Movie.kt
-│   └── repositories
-│       └── movies
-│           └── MoviesRepo.kt
+│   └── repo
+│       └── MoviesRepo.kt
 ├── di
 │   └── modules
 │       ├── DatabaseModule.kt
@@ -92,6 +90,9 @@ This project follows the famous MVVM architecture and best practices from Google
 │   │       ├── SplashFragment.kt
 │   │       ├── SplashScreen.kt
 │   │       └── SplashViewModel.kt
+│   ├── test
+│   │   ├── TestActivity.kt
+│   │   └── TestViewModel.kt
 │   └── theme
 │       ├── Theme.kt
 │       └── Typography.kt
@@ -103,11 +104,9 @@ This project follows the famous MVVM architecture and best practices from Google
     │       └── Resource.kt
     ├── flow
     │   └── EventFlow.kt
-    ├── livedata
-    │   └── SingleLiveEvent.kt
     └── NetworkBoundResource.kt
 
-23 directories, 35 files
+21 directories, 34 files
 ```
 
 ## Credits 🤗
