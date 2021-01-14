@@ -37,8 +37,7 @@ class MoviesRepo @Inject constructor(
             }
 
             override fun saveRemoteData(data: List<Movie>) {
-                moviesDao.deleteAll()
-                moviesDao.addAll(data)
+                moviesDao.nukeTableAndAdd(data)
                 sharedPref.edit {
                     putLong(KEY_LAST_SYNCED, System.currentTimeMillis())
                 }
