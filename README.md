@@ -15,12 +15,15 @@ built to *demonstrate MVVM with Jetpack Compose*.
 
 [TopCorn 1](https://github.com/theapache64/topcorn) is the XML version of this repository
 
-## Dark Mode Available 🌙
-![dark_screenshots](extras/screenshot_dark.png)
 
 ***Try latest TopCorn2 app apk from below 👇***
 
 [![TopCorn2](https://img.shields.io/badge/TopCorn2🍿-APK-black.svg?style=for-the-badge&logo=android)](https://github.com/TheCodeMonks/topcorn2/releases/download/v1.0.0-alpha02/app-release.apk)
+
+
+## Dark Mode Available 🌙
+![dark_screenshots](extras/screenshot_dark.png)
+
 
 ## Built With 🛠
 
