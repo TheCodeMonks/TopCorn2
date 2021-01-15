@@ -18,6 +18,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.asLiveData
 import com.theapache64.topcorn2.R
 import com.theapache64.topcorn2.data.remote.Movie
@@ -49,9 +50,11 @@ fun MoviesScreen(
             TopAppBar(
                 backgroundColor = MaterialTheme.colors.surface,
                 elevation = 0.dp,
+                modifier = Modifier.preferredHeight(70.dp),
                 title = {
                     Text(
-                        text = stringResource(id = R.string.app_name)
+                        text = stringResource(id = R.string.app_name),
+                        fontSize = 28.sp
                     )
                 },
                 actions = {
@@ -259,10 +262,12 @@ fun CategoryRow(
 private fun CategoryTitle(category: Category) {
     Text(
         text = category.genre,
-        style = MaterialTheme.typography.subtitle1,
+        style = MaterialTheme.typography.subtitle2,
+        color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
         modifier = Modifier.padding(
-            top = 10.dp,
-            start = 10.dp
+            start = 20.dp,
+            top = 15.dp,
+            bottom = 15.dp
         )
     )
 }

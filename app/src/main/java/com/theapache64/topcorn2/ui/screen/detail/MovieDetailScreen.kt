@@ -49,6 +49,7 @@ fun MovieDetail(
         topBar = {
             TopAppBar(
                 title = {},
+                modifier = Modifier.preferredHeight(70.dp),
                 navigationIcon = {
                     IconButton(onClick = { onBackPressed() }) {
                         Icon(
