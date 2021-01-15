@@ -11,11 +11,6 @@ built to *demonstrate MVVM with Jetpack Compose*.
 [![GitHub license](https://img.shields.io/github/license/TheCodeMonks/topcorn2)](https://github.com/TheCodeMonks/topcorn2/blob/master/LICENSE)
 [![Twitter](https://img.shields.io/twitter/url?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FTheCodeMonks%2Ftopcorn2)
 
-## What is TopCorn 1? 🤷
-
-[TopCorn 1](https://github.com/theapache64/topcorn) is the XML version of this repository
-
-
 ***Try latest TopCorn2 app apk from below 👇***
 
 [![TopCorn2](https://img.shields.io/badge/TopCorn2🍿-APK-black.svg?style=for-the-badge&logo=android)](https://github.com/TheCodeMonks/topcorn2/releases/download/v1.0.0-alpha02/app-release.apk)
@@ -24,6 +19,10 @@ built to *demonstrate MVVM with Jetpack Compose*.
 ## Dark Mode Available 🌙
 ![dark_screenshots](extras/screenshot_dark.png)
 
+
+## What is TopCorn 1? 🤷
+
+[TopCorn 1](https://github.com/theapache64/topcorn) is the XML version of this repository
 
 ## Built With 🛠
 
