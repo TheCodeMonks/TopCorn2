@@ -1,4 +1,4 @@
-![GitHub Cards Preview](https://raw.githubusercontent.com/TheCodeMonks/topcorn2/master/extras/topcorn2_coverart.jpg)
+![GitHub Cards Preview](https://github.com/TheCodeMonks/topcorn2/blob/master/extras/topcorn2_coverart.jpg?raw=true)
 
 # TopCorn 2 🍿
 
