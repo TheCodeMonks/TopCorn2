@@ -16,7 +16,8 @@ built to *demonstrate MVVM with Jetpack Compose*.
 [![TopCorn2](https://img.shields.io/badge/TopCorn2🍿-APK-black.svg?style=for-the-badge&logo=android)](https://github.com/TheCodeMonks/topcorn2/releases/download/v1.0.0-alpha02/app-release.apk)
 
 
-## Dark Mode Available 🌙
+## Designs - Dark Mode Available 🌙 
+![dark_screenshots](extras/screenshot_light.png)
 ![dark_screenshots](extras/screenshot_dark.png)
 
 
