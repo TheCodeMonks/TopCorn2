@@ -15,15 +15,19 @@ built to *demonstrate MVVM with Jetpack Compose*.
 
 [![TopCorn2](https://img.shields.io/badge/TopCorn2🍿-APK-black.svg?style=for-the-badge&logo=android)](https://github.com/TheCodeMonks/topcorn2/releases/download/v1.0.0-alpha02/app-release.apk)
 
+<br />
+
+## Ohh you hate Compose? NP 🤷
+
+Well, we've XML version here, The [TopCorn 1](https://github.com/theapache64/topcorn)
+
+<br />
 
 ## Designs - Dark Mode Available 🌙 
 ![dark_screenshots](extras/screenshot_light.png)
 ![dark_screenshots](extras/screenshot_dark.png)
 
-
-## What is TopCorn 1? 🤷
-
-[TopCorn 1](https://github.com/theapache64/topcorn) is the XML version of this repository
+<br />
 
 ## Built With 🛠
 
@@ -43,11 +47,15 @@ built to *demonstrate MVVM with Jetpack Compose*.
 - [Coil](https://github.com/chrisbanes/accompanist/blob/main/coil/README.md) - An image loading library for Android.
 - [Material Components for Android](https://github.com/material-components/material-components-android) - Modular and customizable Material Design UI components for Android.
 
+<br />
+
 ## Architecture 🗼
 
 This project follows the famous MVVM architecture and best practices from Google's [GithubBrowserSample](https://github.com/android/architecture-components-samples/tree/master/GithubBrowserSample)
 
 ![](extras/arch.jpg)
+
+<br />
 
 ## Project Structure 📂
 
@@ -110,6 +118,7 @@ This project follows the famous MVVM architecture and best practices from Google
 
 21 directories, 34 files
 ```
+<br />
 
 ## Credits 🤗
 
@@ -117,6 +126,8 @@ This project follows the famous MVVM architecture and best practices from Google
 - 🖌️ Design inspired from [AnimeXStream](https://github.com/mukul500/AnimeXStream) 
 - 💽 Data from [top250 API](https://github.com/theapache64/top250)
 - 📄 Thanks [Foodium](https://github.com/patilshreyas/Foodium)
+
+<br />
 
 ## TODO 🗒️
 
