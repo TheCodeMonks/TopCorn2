@@ -1,4 +1,4 @@
-![light_screenshots](extras/topcorn2_coverart.jpg)
+![GitHub Cards Preview](https://raw.githubusercontent.com/TheCodeMonks/topcorn2/master/extras/topcorn2_coverart.jpg)
 
 # TopCorn 2 🍿
 
