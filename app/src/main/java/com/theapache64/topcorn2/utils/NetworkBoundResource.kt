@@ -5,6 +5,7 @@ import androidx.annotation.WorkerThread
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
+import java.io.IOException
 
 /**
  * A super cool utility class to provide controlled data cache-ing
@@ -41,6 +42,8 @@ abstract class NetworkBoundResource<DB, REMOTE> {
 
                         // start watching it
                         emitLocalDbData()
+                    } else if (response is Resource.Error) {
+                        throw IOException(response.errorData)
                     }
                 }
 

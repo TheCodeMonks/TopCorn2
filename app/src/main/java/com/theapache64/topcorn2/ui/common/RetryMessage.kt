@@ -7,7 +7,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.theapache64.topcorn2.R
 
@@ -34,14 +36,15 @@ fun RetryMessage(
 
         Text(
             text = message,
+            textAlign = TextAlign.Center,
             modifier = Modifier.padding(
-                top = 10.dp,
-                bottom = 10.dp
+                top = 15.dp,
+                bottom = 20.dp
             )
         )
 
         Button(onClick = { onRetryClicked() }) {
-            Text(text = "RETRY")
+            Text(text = stringResource(id = R.string.any_retry))
         }
     }
 }

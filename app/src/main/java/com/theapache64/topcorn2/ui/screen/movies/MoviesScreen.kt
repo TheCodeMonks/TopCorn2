@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -19,7 +18,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.asLiveData
 import com.theapache64.topcorn2.R
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.model.Category
@@ -37,12 +35,12 @@ import timber.log.Timber
 fun MoviesScreen(
     moviesViewModel: MoviesViewModel
 ) {
-    val moviesResponseState by moviesViewModel.movies.asLiveData()
+    val moviesResponseState by moviesViewModel.moviesResponse
         .observeAsState(initial = Resource.Initial())
 
     Timber.d("MoviesScreen: Resp is $moviesResponseState")
 
-    val sortOrder by moviesViewModel.sortOrder.collectAsState()
+    val moviesRequest by moviesViewModel.moviesRequest.observeAsState()
     val currentUiMode = AmbientConfiguration.current.uiMode
 
     Scaffold(
@@ -59,7 +57,7 @@ fun MoviesScreen(
                 },
                 actions = {
                     AppBarMenu(
-                        sortOrder = sortOrder,
+                        sortOrder = moviesRequest!!.sortOrder,
                         onSortByStarClicked = {
                             moviesViewModel.onSortByRatingClicked()
                         },

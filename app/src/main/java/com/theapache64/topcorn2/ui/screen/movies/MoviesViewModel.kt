@@ -1,14 +1,20 @@
 package com.theapache64.topcorn2.ui.screen.movies
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.data.repo.MoviesRepo
 import com.theapache64.topcorn2.model.Category
+import com.theapache64.topcorn2.model.MoviesRequest
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
 import com.theapache64.topcorn2.utils.flow.mutableEventFlow
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
 /**
@@ -78,12 +84,12 @@ class MoviesViewModel @ViewModelInject constructor(
     private val _openGitHubUrl = mutableEventFlow<String>()
     val openGitHubUrl: SharedFlow<String> = _openGitHubUrl
 
-    val sortOrder = MutableStateFlow(SORT_ORDER_YEAR)
+    val moviesRequest = MutableLiveData(MoviesRequest(SORT_ORDER_YEAR))
 
     // When ever sortOrder changed, load movies
-    val movies = sortOrder.flatMapLatest { newSortOrder ->
+    val moviesResponse = moviesRequest.switchMap { moviesRequest ->
         Timber.d("Sort order changed")
-        flow<Resource<List<Category>>> {
+        liveData<Resource<List<Category>>> {
             moviesRepo
                 .getTop250Movies()
                 .onStart {
@@ -94,18 +100,14 @@ class MoviesViewModel @ViewModelInject constructor(
                 }
                 .collect { movies ->
                     Timber.d("Resp is: ${movies.size} size")
-                    _sortOrderToast.emit(newSortOrder)
+                    _sortOrderToast.emit(moviesRequest.sortOrder)
 
-                    val feedItems = convertToFeed(movies, newSortOrder)
+                    val feedItems = convertToFeed(movies, moviesRequest.sortOrder)
 
                     emit(Resource.Success(null, feedItems))
                 }
         }
-    }.shareIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        replay = 1
-    )
+    }
 
     private val _goToMovieDetail = mutableEventFlow<Int>()
     val goToMovieDetail: SharedFlow<Int> = _goToMovieDetail
@@ -123,16 +125,17 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
     fun onSortByRatingClicked() {
-        sortOrder.value = SORT_ORDER_RATING
+        moviesRequest.value = MoviesRequest(SORT_ORDER_RATING)
     }
 
     fun onSortByYearClicked() {
-        sortOrder.value = SORT_ORDER_YEAR
+        moviesRequest.value = MoviesRequest(SORT_ORDER_YEAR)
     }
 
     fun onRetryClicked() {
+        Timber.d("onRetryClicked: Retry clicked")
         // Resetting sort order to fire new data request
-        sortOrder.value = sortOrder.value
+        moviesRequest.value = moviesRequest.value!!.copy()
     }
 
 }
