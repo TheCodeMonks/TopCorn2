@@ -17,11 +17,6 @@ built to *demonstrate MVVM with Jetpack Compose*.
 
 <br />
 
-## Ohh you hate Compose? NP 🤷
-
-Well, we've XML version here, The [TopCorn 1](https://github.com/theapache64/topcorn)
-
-<br />
 
 ## Designs - Dark Mode Available 🌙 
 ![dark_screenshots](extras/screenshot_light.png)
@@ -119,6 +114,10 @@ This project follows the famous MVVM architecture and best practices from Google
 21 directories, 34 files
 ```
 <br />
+
+## Ohh you hate Compose? NP 🤷
+
+Well, we've XML version here, The [TopCorn 1](https://github.com/theapache64/topcorn)
 
 ## Credits 🤗
 
