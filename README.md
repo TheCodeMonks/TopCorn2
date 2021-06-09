@@ -13,7 +13,7 @@ built to *demonstrate MVVM with Jetpack Compose*.
 
 ***Try latest TopCorn2 app apk from below 👇***
 
-[![TopCorn2](https://img.shields.io/badge/TopCorn2🍿-APK-black.svg?style=for-the-badge&logo=android)](https://github.com/TheCodeMonks/topcorn2/releases/latest/download/app-release.apk)
+[![TopCorn2](https://img.shields.io/badge/TopCorn2🍿-APK-black.svg?style=for-the-badge&logo=android)](https://github.com/TheCodeMonks/topcorn2/releases/latest/download/app-debug.apk)
 
 <br />
 
