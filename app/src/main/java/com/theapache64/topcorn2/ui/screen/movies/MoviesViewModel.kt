@@ -55,7 +55,7 @@ class MoviesViewModel @ViewModelInject constructor(
                     .sortedByDescending {
                         when (sortOrder) {
                             SORT_ORDER_RATING -> it.rating
-                            SORT_ORDER_YEAR -> it.year.toFloat()
+                            SORT_ORDER_YEAR -> it.year?.toFloat()
                             else -> {
                                 throw IllegalArgumentException("TSH : sort order '$sortOrder' not managed")
                             }
