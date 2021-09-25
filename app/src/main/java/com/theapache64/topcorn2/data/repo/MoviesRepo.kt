@@ -11,8 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
+import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
-import kotlin.time.hours
 
 class MoviesRepo @Inject constructor(
     private val sharedPref: SharedPreferences,
@@ -21,7 +21,7 @@ class MoviesRepo @Inject constructor(
 ) {
 
     companion object {
-        private val MOVIE_EXPIRY_IN_MILLIS = 1.hours.inMilliseconds.toLong()
+        private val MOVIE_EXPIRY_IN_MILLIS = Duration.hours(1).inWholeMilliseconds
         private const val KEY_LAST_SYNCED = "last_synced"
     }
 
@@ -53,7 +53,7 @@ class MoviesRepo @Inject constructor(
         }.asFlow().flowOn(Dispatchers.IO)
     }
 
-    suspend fun getMovie(movieId : Int) = moviesDao.getMovie(movieId)
+    suspend fun getMovie(movieId: Int) = moviesDao.getMovie(movieId)
 
     @ExperimentalTime
     private fun isExpired(lastSynced: Long): Boolean {

@@ -1,12 +1,13 @@
 package com.theapache64.topcorn2.ui.common
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import coil.compose.rememberImagePainter
+import coil.size.Scale
 import com.theapache64.topcorn2.data.remote.Movie
-import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
 fun Poster(
@@ -17,11 +18,13 @@ fun Poster(
     Card(
         modifier = Modifier.clickable(onClick = { onMovieClicked(movie) })
     ) {
-        CoilImage(
-            data = movie.thumbUrl,
-            fadeIn = true,
-            contentScale = ContentScale.Crop,
-            modifier = modifier
+        Image(
+            painter = rememberImagePainter(data = movie.thumbUrl, builder = {
+                crossfade(true)
+                scale(Scale.FILL)
+            }),
+            modifier = modifier,
+            contentDescription = null
         )
     }
 }

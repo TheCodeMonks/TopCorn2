@@ -3,10 +3,9 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs'
 }
-apply plugin: "androidx.navigation.safeargs"
 
-def compose_version = '1.0.0-alpha09'
 android {
     compileSdkVersion 30
 
@@ -41,22 +40,22 @@ android {
         // Disabling coroutine's ExperimentalCoroutinesApi warning
         freeCompilerArgs += [
                 "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-Xuse-experimental=kotlin.time.ExperimentalTime"
+                "-Xuse-experimental=kotlin.time.ExperimentalTime",
+                "-Xopt-in=coil.annotation.ExperimentalCoilApi"
         ]
     }
 
     composeOptions {
-        kotlinCompilerVersion kotlin_version
         kotlinCompilerExtensionVersion compose_version
     }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -70,15 +69,12 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_version"
 
     // Hilt
-    def androidx_hilt_version = '1.0.0-alpha02'
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt_version"
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    kapt "androidx.hilt:hilt-lifecycle-viewmodel:$androidx_hilt_version"
-    kapt "androidx.hilt:hilt-compiler:$androidx_hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-fragment:1.0.0"
 
     // Room
-    def room_version = "2.2.6"
+    def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -90,24 +86,27 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
     // Moshi : Moshi
-    implementation 'com.squareup.moshi:moshi:1.11.0'
+    implementation 'com.squareup.moshi:moshi:1.12.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.12.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
-    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.11.0'
 
-    testImplementation 'junit:junit:4.13.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
     // Timber : No-nonsense injectable logging.
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // Kotlinx Coroutines Core : Coroutines support libraries for Kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
-    // Accompanist Coil Integration : A collection of utilities for Jetpack Compose
-    implementation 'dev.chrisbanes.accompanist:accompanist-coil:0.4.1'
+    // Coil - Image loading library
+    implementation("io.coil-kt:coil-compose:1.3.2")
 
-    // LiveData Kotlin Extensions : Kotlin extensions for 'livedata' artifact
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-rc01'
+    // Kotlin Lifecycle KTX
+    def lifecycle_version = "2.3.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 }

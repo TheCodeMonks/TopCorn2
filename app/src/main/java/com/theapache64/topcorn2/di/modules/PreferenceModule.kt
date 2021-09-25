@@ -5,14 +5,14 @@ import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
 /**
  * Created by theapache64 : Jan 04 Mon,2021 @ 00:31
  */
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object PreferenceModule {
     @Provides
     fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences {

@@ -1,6 +1,5 @@
 package com.theapache64.topcorn2.ui.screen.movies
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -11,16 +10,19 @@ import com.theapache64.topcorn2.model.Category
 import com.theapache64.topcorn2.model.MoviesRequest
 import com.theapache64.topcorn2.utils.calladapter.flow.Resource
 import com.theapache64.topcorn2.utils.flow.mutableEventFlow
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by theapache64 : Jan 04 Mon,2021 @ 00:27
  */
-class MoviesViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MoviesViewModel @Inject constructor(
     private val moviesRepo: MoviesRepo
 ) : ViewModel() {
 
