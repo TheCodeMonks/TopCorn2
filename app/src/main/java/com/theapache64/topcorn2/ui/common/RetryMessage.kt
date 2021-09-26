@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,8 +31,9 @@ fun RetryMessage(
     ) {
         Image(
             modifier = Modifier
-                .preferredSize(48.dp),
-            imageVector = vectorResource(id = R.drawable.ic_warning)
+                .requiredSize(48.dp),
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_warning),
+            contentDescription = null
         )
 
         Text(

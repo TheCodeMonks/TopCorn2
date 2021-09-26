@@ -1,18 +1,20 @@
 package com.theapache64.topcorn2.ui.screen.detail
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.theapache64.topcorn2.data.remote.Movie
 import com.theapache64.topcorn2.data.repo.MoviesRepo
 import com.theapache64.topcorn2.utils.flow.mutableEventFlow
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.mapLatest
+import javax.inject.Inject
 
 /**
  * Created by theapache64 : Jan 05 Tue,2021 @ 01:09
  */
-class MovieDetailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MovieDetailViewModel @Inject constructor(
     private val moviesRepo: MoviesRepo
 ) : ViewModel() {
 

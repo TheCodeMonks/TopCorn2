@@ -1,22 +1,21 @@
-
 package com.theapache64.topcorn2.ui.theme
 
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.font
-import androidx.compose.ui.text.font.fontFamily
 import androidx.compose.ui.unit.sp
 import com.theapache64.topcorn2.R
 
 /**
  * Created by theapache64 : Jan 03 Sun,2021 @ 22:27
  */
-private val GoogleSans = fontFamily(
-    font(R.font.google_sans_regular),
-    font(R.font.google_sans_medium, FontWeight.W500),
-    font(R.font.google_sans_bold, FontWeight.W600)
+private val GoogleSans = FontFamily(
+    Font(R.font.google_sans_regular),
+    Font(R.font.google_sans_medium, FontWeight.W500),
+    Font(R.font.google_sans_bold, FontWeight.W600)
 )
 
 val TopCornTypography = Typography(

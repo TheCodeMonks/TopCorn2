@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.theapache64.topcorn2.data.local.daos.MoviesDao
 import com.theapache64.topcorn2.data.remote.Movie
 
-@Database(entities = [Movie::class], version = 3)
+@Database(entities = [Movie::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MoviesDao

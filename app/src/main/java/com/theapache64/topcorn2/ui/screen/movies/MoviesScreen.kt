@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,7 +12,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.AmbientConfiguration
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -41,14 +43,14 @@ fun MoviesScreen(
     Timber.d("MoviesScreen: Resp is $moviesResponseState")
 
     val moviesRequest by moviesViewModel.moviesRequest.observeAsState()
-    val currentUiMode = AmbientConfiguration.current.uiMode
+    val currentUiMode = LocalConfiguration.current.uiMode
 
     Scaffold(
         topBar = {
             TopAppBar(
                 backgroundColor = MaterialTheme.colors.surface,
                 elevation = 0.dp,
-                modifier = Modifier.preferredHeight(70.dp),
+                modifier = Modifier.requiredHeight(70.dp),
                 title = {
                     Text(
                         text = stringResource(id = R.string.app_name),
@@ -103,14 +105,16 @@ fun AppBarMenu(
         // Sort By Star
         IconButton(onClick = { onSortByStarClicked() }) {
             Icon(
-                imageVector = vectorResource(id = R.drawable.ic_star)
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_star),
+                contentDescription = null
             )
         }
     } else {
         // Sort By Year
         IconButton(onClick = { onSortByYearClicked() }) {
             Icon(
-                imageVector = vectorResource(id = R.drawable.ic_calendar)
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_calendar),
+                contentDescription = null
             )
         }
     }
@@ -122,15 +126,17 @@ fun AppBarMenu(
         }
     ) {
         Icon(
-            imageVector = vectorResource(id = R.drawable.ic_switch_dark_mode)
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_switch_dark_mode),
+            contentDescription = null
         )
     }
 
     // Heart
     IconButton(onClick = { onHeartClicked() }) {
         Icon(
-            imageVector = vectorResource(id = R.drawable.ic_heart),
-            tint = Color.Red
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_heart),
+            tint = Color.Red,
+            contentDescription = null
         )
     }
 }
@@ -177,7 +183,6 @@ fun BodyContent(
 }
 
 
-
 private val cardWidth = 150.dp
 
 @Composable
@@ -188,15 +193,15 @@ fun MovieItem(
 ) {
     Column(
         modifier = modifier
-            .preferredWidth(cardWidth)
+            .requiredWidth(cardWidth)
             .padding(10.dp)
     ) {
 
         // Poster
         Poster(
             modifier = Modifier
-                .preferredWidth(cardWidth)
-                .preferredHeight(200.dp),
+                .requiredWidth(cardWidth)
+                .requiredHeight(200.dp),
             movie = movie,
             onMovieClicked = onMovieClicked
         )
@@ -218,9 +223,10 @@ fun MovieItem(
             Icon(
                 modifier = Modifier
                     .padding(end = 4.dp)
-                    .preferredSize(12.dp),
-                imageVector = vectorResource(id = R.drawable.ic_rating),
-                tint = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
+                    .requiredSize(12.dp),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_rating),
+                tint = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+                contentDescription = null
             )
 
             // Rating
