@@ -19,6 +19,7 @@
 
         <activity
             android:name=".ui.main.MainActivity"
+            android:exported="true"
             android:theme="@style/Theme.TopCorn2.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

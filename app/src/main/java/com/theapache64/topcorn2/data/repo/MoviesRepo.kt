@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.theapache64.topcorn2.data.repo
 
 import android.content.SharedPreferences
@@ -11,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
-import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.ExperimentalTime
 
 class MoviesRepo @Inject constructor(
@@ -21,7 +23,7 @@ class MoviesRepo @Inject constructor(
 ) {
 
     companion object {
-        private val MOVIE_EXPIRY_IN_MILLIS = Duration.hours(1).inWholeMilliseconds
+        private val MOVIE_EXPIRY_IN_MILLIS = 1.hours.inWholeMilliseconds
         private const val KEY_LAST_SYNCED = "last_synced"
     }
 
